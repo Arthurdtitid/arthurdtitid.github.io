@@ -1,13 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Arthurpedia</title>
-</head>
-<body style="background:black; color:lime; text-align:center; font-family:Arial;">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo da Senha Impossível 🔐</title>
 
-  <h1>🚀 Arthurpedia</h1>
-  <p>Meu primeiro site feito pelo celular!</p>
+<style>
+body{
+    background:black;
+    color:lime;
+    font-family:monospace;
+    text-align:center;
+    margin-top:60px;
+}
+
+input{
+    padding:10px;
+    font-size:18px;
+    width:300px;
+    text-align:center;
+}
+
+button{
+    padding:10px 20px;
+    font-size:18px;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+#regras{
+    margin-top:30px;
+    font-size:16px;
+    text-align:left;
+    display:inline-block;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔥 Jogo da Senha Impossível 🔐</h1>
+
+<input type="text" id="senha" placeholder="Digite sua senha aqui">
+<br>
+<button onclick="verificar()">Verificar</button>
+
+<div id="mensagem"></div>
+
+<div id="regras">
+    <h3>Regras:</h3>
+    <div id="listaRegras"></div>
+</div>
+
+<script>
+let nivel = 0;
+
+const regras = [
+    {texto: "A senha deve ter pelo menos 5 caracteres.",
+     teste: s => s.length >= 5},
+
+    {texto: "A senha deve ter pelo menos 1 número.",
+     teste: s => /[0-9]/.test(s)},
+
+    {texto: "A senha deve ter pelo menos 1 letra maiúscula.",
+     teste: s => /[A-Z]/.test(s)},
+
+    {texto: "A senha deve ter pelo menos 1 símbolo (!@#$).",
+     teste: s => /[!@#$]/.test(s)},
+
+    {texto: "A senha deve conter a palavra BRASIL.",
+     teste: s => s.includes("BRASIL")},
+
+    {texto: "A senha deve conter o número 2026.",
+     teste: s => s.includes("2026")}
+];
+
+function atualizarRegras(){
+    let html = "";
+    for(let i=0;i<=nivel;i++){
+        html += "✔️ " + regras[i].texto + "<br>";
+    }
+    document.getElementById("listaRegras").innerHTML = html;
+}
+
+function verificar(){
+    let senha = document.getElementById("senha").value;
+
+    if(regras[nivel].teste(senha)){
+        nivel++;
+        document.getElementById("mensagem").innerHTML = "😈 Nova regra desbloqueada!";
+        if(nivel >= regras.length){
+            document.getElementById("mensagem").innerHTML = "🏆 VOCÊ VENCEU O JOGO!";
+        }
+        atualizarRegras();
+    }else{
+        document.getElementById("mensagem").innerHTML = "❌ Você não cumpriu a regra atual!";
+    }
+}
+
+atualizarRegras();
+</script>
 
 </body>
 </html>

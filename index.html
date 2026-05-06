@@ -1,104 +1,69 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jogo da Senha Impossível 🔐</title>
+  <title>King Clicker</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial;
+      background: #111;
+      color: white;
+    }
 
-<style>
-body{
-    background:black;
-    color:lime;
-    font-family:monospace;
-    text-align:center;
-    margin-top:60px;
-}
+    #carta {
+      width: 250px;
+      cursor: pointer;
+      transition: transform 0.1s;
+      border-radius: 10px;
+    }
 
-input{
-    padding:10px;
-    font-size:18px;
-    width:300px;
-    text-align:center;
-}
+    #carta:active {
+      transform: scale(0.9);
+    }
 
-button{
-    padding:10px 20px;
-    font-size:18px;
-    margin-top:10px;
-    cursor:pointer;
-}
-
-#regras{
-    margin-top:30px;
-    font-size:16px;
-    text-align:left;
-    display:inline-block;
-}
-</style>
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
-
 <body>
 
-<h1>🔥 Jogo da Senha Impossível 🔐</h1>
+<h1>🃏 King Clicker</h1>
 
-<input type="text" id="senha" placeholder="Digite sua senha aqui">
+<p>Pontos: <span id="pontos">0</span></p>
+
+<!-- COLE SUA IMAGEM AQUI -->
+<img id="carta" src="SUA_IMAGEM_AQUI.png" onclick="clicar()">
+
 <br>
-<button onclick="verificar()">Verificar</button>
 
-<div id="mensagem"></div>
-
-<div id="regras">
-    <h3>Regras:</h3>
-    <div id="listaRegras"></div>
-</div>
+<button onclick="upgrade()">Upgrade (+1 por clique)</button>
 
 <script>
-let nivel = 0;
+  let pontos = 0;
+  let valorClique = 1;
+  let custo = 10;
 
-const regras = [
-    {texto: "A senha deve ter pelo menos 5 caracteres.",
-     teste: s => s.length >= 5},
+  function clicar() {
+    pontos += valorClique;
+    atualizar();
+  }
 
-    {texto: "A senha deve ter pelo menos 1 número.",
-     teste: s => /[0-9]/.test(s)},
-
-    {texto: "A senha deve ter pelo menos 1 letra maiúscula.",
-     teste: s => /[A-Z]/.test(s)},
-
-    {texto: "A senha deve ter pelo menos 1 símbolo (!@#$).",
-     teste: s => /[!@#$]/.test(s)},
-
-    {texto: "A senha deve conter a palavra BRASIL.",
-     teste: s => s.includes("BRASIL")},
-
-    {texto: "A senha deve conter o número 2026.",
-     teste: s => s.includes("2026")}
-];
-
-function atualizarRegras(){
-    let html = "";
-    for(let i=0;i<=nivel;i++){
-        html += "✔️ " + regras[i].texto + "<br>";
+  function upgrade() {
+    if (pontos >= custo) {
+      pontos -= custo;
+      valorClique++;
+      custo *= 2;
+      atualizar();
     }
-    document.getElementById("listaRegras").innerHTML = html;
-}
+  }
 
-function verificar(){
-    let senha = document.getElementById("senha").value;
-
-    if(regras[nivel].teste(senha)){
-        nivel++;
-        document.getElementById("mensagem").innerHTML = "😈 Nova regra desbloqueada!";
-        if(nivel >= regras.length){
-            document.getElementById("mensagem").innerHTML = "🏆 VOCÊ VENCEU O JOGO!";
-        }
-        atualizarRegras();
-    }else{
-        document.getElementById("mensagem").innerHTML = "❌ Você não cumpriu a regra atual!";
-    }
-}
-
-atualizarRegras();
+  function atualizar() {
+    document.getElementById("pontos").innerText = pontos;
+  }
 </script>
 
 </body>
